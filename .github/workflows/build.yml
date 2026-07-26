@@ -22,11 +22,13 @@ jobs:
         with:
           gradle-version: "8.8"
 
-      - name: Extract project
+      -         - name: Extract project
         run: |
-          mkdir extracted
-          unzip -q orville-v3-real-forge-source-alpha1.zip -d extracted
-
+          mkdir -p extracted
+          ZIP_FILE=$(find . -maxdepth 2 -type f -iname "*.zip" | head -n 1)
+          echo "Found ZIP: $ZIP_FILE"
+          test -n "$ZIP_FILE"
+          unzip -q "$ZIP_FILE" -d extracted
       - name: Build mod
         working-directory: extracted/orville_v3_real
         run: gradle build --stacktrace
